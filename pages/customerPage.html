@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Management | NEXUS POS</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --sidebar: #ffffff;
+        --card: #ffffff;
+        --accent: #2563eb;
+        --accent-soft: #dbeafe;
+        --text: #1e293b;
+        --muted: #64748b;
+        --border: #e5e7eb;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+        margin: 0;
+      }
+
+      #sidebar {
+        width: 260px;
+        background: linear-gradient(180deg, #ffffff, #eef2ff);
+        position: fixed;
+        height: 100vh;
+        border-right: 1px solid var(--border);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.04);
+      }
+
+      .brand {
+        padding: 2.5rem 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-link {
+        color: var(--muted);
+        margin: 8px 15px;
+        padding: 12px 18px;
+        border-radius: 14px;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .nav-link i {
+        font-size: 1.2rem;
+        margin-right: 14px;
+      }
+
+      #main-wrapper {
+        margin-left: 260px;
+        padding: 3.5rem;
+        min-height: 100vh;
+      }
+
+      .table-card {
+        background: var(--card);
+        border-radius: 22px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+      }
+
+      .table thead {
+        background: #f1f5f9;
+        color: var(--accent);
+      }
+
+      .btn-add {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 10px 26px;
+        border-radius: 14px;
+        font-weight: 600;
+      }
+
+      .btn-add:hover {
+        background: #1d4ed8;
+      }
+
+      /* Search Bar Styling */
+      .search-box {
+        position: relative;
+        max-width: 400px;
+      }
+      .search-box input {
+        padding-left: 45px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+      }
+      .search-box i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 26px;
+        border: 1px solid var(--border);
+      }
+
+      .form-label {
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .form-control {
+        border-radius: 14px;
+        padding: 12px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="sidebar">
+      <div class="brand">
+        <h4 class="fw-bold mb-0">
+          <i class="bi bi-cpu text-primary me-2"></i> NEXUS POS
+        </h4>
+      </div>
+
+      <nav class="mt-4">
+        <a href="../index.html" class="nav-link">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+        <a href="CustomerPage.html" class="nav-link active">
+          <i class="bi bi-people"></i> Customers
+        </a>
+        <a href="ItemPage.html" class="nav-link">
+          <i class="bi bi-box-seam"></i> Inventory
+        </a>
+        <a href="OrderPage.html" class="nav-link">
+          <i class="bi bi-cart"></i> Orders
+        </a>
+      </nav>
+    </div>
+
+    <div id="main-wrapper">
+      <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+          <h1 class="fw-bold mb-1">Customer Management</h1>
+          <p class="text-muted mb-0">Manage your business clients.</p>
+        </div>
+        <button
+          class="btn btn-add"
+          data-bs-toggle="modal"
+          data-bs-target="#custModal"
+          onclick="resetCustForm()"
+        >
+          + New Customer
+        </button>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="search-box w-100">
+          <i class="bi bi-search"></i>
+          <input
+            type="text"
+            id="customerSearch"
+            class="form-control"
+            placeholder="Search by name or contact..."
+            onkeyup="searchCustomer()"
+          />
+        </div>
+      </div>
+
+      <div class="table-card">
+        <table class="table table-hover align-middle mb-0" id="customerTable">
+          <thead>
+            <tr>
+              <th class="ps-4" style="width: 12%">ID</th>
+              <th style="width: 30%">Full Name</th>
+              <th style="width: 20%">Address</th>
+              <th style="width: 23%">Contact Number</th>
+              <th class="text-center" style="width: 15%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="ps-4 text-muted">C-001</td>
+              <td class="fw-bold text-primary">Sunil Shantha</td>
+              <td>Colombo</td>
+              <td>077 123 4567</td>
+              <td class="text-center">
+                <button
+                  class="btn btn-sm btn-outline-primary border-0"
+                  data-bs-toggle="modal"
+                  data-bs-target="#custModal"
+                  onclick="fillCustForm('Sunil Shantha','Colombo','077 123 4567')"
+                >
+                  <i class="bi bi-pencil-square fs-5"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger border-0">
+                  <i class="bi bi-trash fs-5"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="modal fade" id="custModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold mb-0" id="cTitle">Customer Details</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <form id="custForm">
+            <div class="mb-3">
+              <label class="form-label">Customer Name</label>
+              <input
+                type="text"
+                id="cName"
+                class="form-control"
+                placeholder="Enter name"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <input
+                type="text"
+                id="cAddress"
+                class="form-control"
+                placeholder="Enter address"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Contact Number</label>
+              <input
+                type="tel"
+                id="cContact"
+                class="form-control"
+                placeholder="07X XXX XXXX"
+              />
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary w-100 py-3 rounded-4 mt-3"
+              id="saveBtn"
+            >
+              Confirm & Save
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // සෙවුම් කාර්යය (Search Function)
+      //   function searchCustomer() {
+      //     let input = document.getElementById("customerSearch");
+      //     let filter = input.value.toUpperCase();
+      //     let table = document.getElementById("customerTable");
+      //     let tr = table.getElementsByTagName("tr");
+
+      //     for (let i = 1; i < tr.length; i++) {
+      //       let tdName = tr[i].getElementsByTagName("td")[1]; // Name column
+      //       let tdContact = tr[i].getElementsByTagName("td")[3]; // Contact column
+
+      //       if (tdName || tdContact) {
+      //         let textValueName = tdName.textContent || tdName.innerText;
+      //         let textValueContact = tdContact.textContent || tdContact.innerText;
+
+      //         if (textValueName.toUpperCase().indexOf(filter) > -1 || textValueContact.toUpperCase().indexOf(filter) > -1) {
+      //           tr[i].style.display = "";
+      //         } else {
+      //           tr[i].style.display = "none";
+      //         }
+      //       }
+      //     }
+      //   }
+
+      function resetCustForm() {
+        document.getElementById("cTitle").innerText = "Add New Customer";
+        document.getElementById("custForm").reset();
+      }
+
+      function fillCustForm(name, address, contact) {
+        document.getElementById("cTitle").innerText = "Update Customer";
+        document.getElementById("saveBtn").innerText = "Update Customer";
+        document.getElementById("cName").value = name;
+        document.getElementById("cAddress").value = address;
+        document.getElementById("cContact").value = contact;
+      }
+    </script>
+  </body>
+</html>
