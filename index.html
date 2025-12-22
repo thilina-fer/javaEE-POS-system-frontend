@@ -1,138 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NEXUS POS | Dashboard</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-    />
-    <style>
-      :root {
-        --bg: #0a0f1c;
-        --sidebar: #111827;
-        --card: #1f2937;
-        --accent: #3b82f6;
-        --text: #f3f4f6;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXUS POS | Dashboard</title>
 
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: "Inter", sans-serif;
-        margin: 0;
-      }
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
 
-      #sidebar {
-        width: 260px;
-        background: var(--sidebar);
-        position: fixed;
-        height: 100vh;
-        border-right: 1px solid rgba(255, 255, 255, 0.05);
-        z-index: 1000;
-      }
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --sidebar: #ffffff;
+      --card: #ffffff;
+      --accent: #4f46e5;
+      --text: #1f2937;
+      --muted: #6b7280;
+    }
 
-      .brand {
-        padding: 2.5rem 1.5rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", sans-serif;
+      margin: 0;
+    }
 
-      .nav-link {
-        color: #9ca3af;
-        margin: 8px 15px;
-        padding: 12px 18px;
-        border-radius: 12px;
-        transition: 0.3s;
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-      }
+    /* Sidebar */
+    #sidebar {
+      width: 260px;
+      background: linear-gradient(180deg, #ffffff, #f1f5ff);
+      position: fixed;
+      height: 100vh;
+      border-right: 1px solid #e5e7eb;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.03);
+    }
 
-      .nav-link:hover,
-      .nav-link.active {
-        background: rgba(59, 130, 246, 0.1);
-        color: var(--accent);
-      }
+    .brand {
+      padding: 2.5rem 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
 
-      .nav-link i {
-        font-size: 1.25rem;
-        margin-right: 15px;
-      }
+    .nav-link {
+      color: var(--muted);
+      margin: 8px 15px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-      #main-wrapper {
-        margin-left: 260px;
-        padding: 4rem;
-        min-height: 100vh;
-      }
+    .nav-link:hover,
+    .nav-link.active {
+      background: rgba(79, 70, 229, 0.12);
+      color: var(--accent);
+    }
 
-      .stat-card {
-        background: var(--card);
-        padding: 2rem;
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        height: 160px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        transition: 0.3s;
-      }
+    .nav-link i {
+      font-size: 1.2rem;
+      margin-right: 14px;
+    }
 
-      .stat-card:hover {
-        border-color: var(--accent);
-        transform: translateY(-5px);
-      }
-    </style>
-  </head>
-  <body>
-    <div id="sidebar">
-      <div class="brand">
-        <h4 class="fw-bold mb-0 text-white">
-          <i class="bi bi-cpu text-info me-2"></i> NEXUS POS
-        </h4>
-      </div>
-      <nav class="mt-4">
-        <a href="index.html" class="nav-link active"
-          ><i class="bi bi-speedometer2"></i> Dashboard</a
-        >
-        <a href="pages/CustomerPage.html" class="nav-link"
-          ><i class="bi bi-people"></i> Customers</a
-        >
-        <a href="pages/ItemPage.html" class="nav-link"
-          ><i class="bi bi-box-seam"></i> Inventory</a
-        >
-        <a href="pages/OrderPage.html" class="nav-link"
-          ><i class="bi bi-cart"></i> Orders</a
-        >
-      </nav>
+    /* Main */
+    #main-wrapper {
+      margin-left: 260px;
+      padding: 3.5rem;
+      min-height: 100vh;
+    }
+
+    /* Cards */
+    .stat-card {
+      background: var(--card);
+      padding: 2.2rem;
+      border-radius: 22px;
+      border: 1px solid #e5e7eb;
+      height: 170px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+      transition: 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 60px rgba(79,70,229,0.15);
+    }
+
+    .stat-card h6 {
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sidebar">
+    <div class="brand">
+      <h4 class="fw-bold mb-0">
+        <i class="bi bi-cpu text-primary me-2"></i> NEXUS POS
+      </h4>
     </div>
-    <div id="main-wrapper">
-      <h1 class="fw-bold mb-1 text-white">Dashboard</h1>
-      <p class="text-muted mb-5">System overview and real-time statistics.</p>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="stat-card">
-            <h6>Total Revenue</h6>
-            <h2 class="fw-bold text-primary">$45,200</h2>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="stat-card">
-            <h6>Daily Orders</h6>
-            <h2 class="fw-bold text-success">128</h2>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="stat-card">
-            <h6>Active Stock</h6>
-            <h2 class="fw-bold text-warning">1,450</h2>
-          </div>
+
+    <nav class="mt-4">
+      <a href="index.html" class="nav-link active">
+        <i class="bi bi-speedometer2"></i> Dashboard
+      </a>
+      <a href="pages/CustomerPage.html" class="nav-link">
+        <i class="bi bi-people"></i> Customers
+      </a>
+      <a href="pages/ItemPage.html" class="nav-link">
+        <i class="bi bi-box-seam"></i> Inventory
+      </a>
+      <a href="pages/OrderPage.html" class="nav-link">
+        <i class="bi bi-cart"></i> Orders
+      </a>
+    </nav>
+  </div>
+
+  <div id="main-wrapper">
+    <h1 class="fw-bold mb-1">Dashboard</h1>
+    <p class="text-muted mb-5">System overview and real-time statistics.</p>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="stat-card">
+          <h6>Total Revenue</h6>
+          <h2 class="fw-bold text-primary">$45,200</h2>
         </div>
       </div>
+
+      <div class="col-md-4">
+        <div class="stat-card">
+          <h6>Daily Orders</h6>
+          <h2 class="fw-bold text-success">128</h2>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="stat-card">
+          <h6>Active Stock</h6>
+          <h2 class="fw-bold text-warning">1,450</h2>
+        </div>
+      </div>
     </div>
-  </body>
+  </div>
+</body>
 </html>
