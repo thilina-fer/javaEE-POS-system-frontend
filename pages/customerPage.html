@@ -202,27 +202,7 @@
               <th class="text-center" style="width: 15%">Action</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td class="ps-4 text-muted">C-001</td>
-              <td class="fw-bold text-primary">Sunil Shantha</td>
-              <td>Colombo</td>
-              <td>077 123 4567</td>
-              <td class="text-center">
-                <button
-                  class="btn btn-sm btn-outline-primary border-0"
-                  data-bs-toggle="modal"
-                  data-bs-target="#custModal"
-                  onclick="fillCustForm('Sunil Shantha','Colombo','077 123 4567')"
-                >
-                  <i class="bi bi-pencil-square fs-5"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger border-0">
-                  <i class="bi bi-trash fs-5"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="customer-list"></tbody>
         </table>
       </div>
     </div>
@@ -239,6 +219,15 @@
             ></button>
           </div>
           <form id="custForm">
+            <!-- <div class="mb-3">
+              <label class="form-label">Customer Id</label>
+              <input
+                type="text"
+                id="cId"
+                class="form-control"
+                placeholder="Enter Id"
+              />
+            </div> -->
             <div class="mb-3">
               <label class="form-label">Customer Name</label>
               <input
@@ -270,6 +259,7 @@
               type="button"
               class="btn btn-primary w-100 py-3 rounded-4 mt-3"
               id="saveBtn"
+              onclick="saveCustomer()"
             >
               Confirm & Save
             </button>
@@ -279,7 +269,98 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      window.onload(getAllCustomers());
 
+      function saveCustomer() {
+        const id = $("#cId").val();
+        const name = $("#cName").val();
+        const address = $("#cAddress").val();
+        const contact = $("#cContact").val();
+        $.ajax({
+          url: "http://localhost:8080/javaEE_POS_system_Web_exploded/api/v1/customers",
+          method: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({
+            // id: id,
+            name: name,
+            address: address,
+            contact: contact,
+          }),
+          success: function (response) {
+            alert("Successfully");
+            console.log(response);
+            getAllCustomers();
+          },
+          error: function (error) {
+            console.log(error);
+          },
+        });
+      }
+
+      // function getAllCustomers() {
+      //   $.ajax({
+      //     url: "http://localhost:8080/javaEE_POS_system_Web_exploded/api/v1/customers",
+      //     method: "GET",
+      //     success: function (response) {
+      //       $("#customer-list").empty();
+      //       for (let customer of response) {
+      //         const row =
+      //           "<tr><td>" +
+      //           customer.id +
+      //           "</td><td>" +
+      //           customer.name +
+      //           "</td><td>" +
+      //           customer.address +
+      //           "</td><td>" +
+      //           customer.contact +
+      //           "</td></tr>";
+      //         $("#customer-list").append(row);
+      //       }
+      //     },
+      //     error: function (error) {
+      //       console.log(error);
+      //     },
+      //   });
+      // }
+
+      function getAllCustomers() {
+        $.ajax({
+          url: "http://localhost:8080/javaEE_POS_system_Web_exploded/api/v1/customers",
+          method: "GET",
+          success: function (response) {
+            console.log("Data Received: ", response);
+
+            let tableBody = $("#customer-list");
+            tableBody.empty();
+
+            response.forEach((customer) => {
+              let row = `<tr>
+                    <td>${customer.id}</td>
+                    <td>${customer.name}</td>
+                    <td>${customer.address}</td>
+                    <td>${customer.contact}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-primary border-0" 
+                                onclick="fillCustForm('${customer.id}', '${customer.name}', '${customer.address}', '${customer.contact}')"
+                                data-bs-toggle="modal" data-bs-target="#custModal">
+                            <i class="bi bi-pencil-square fs-5"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger border-0" onclick="deleteCustomer('${customer.id}')">
+                            <i class="bi bi-trash fs-5"></i>
+                        </button>
+                    </td>
+                </tr>`;
+              tableBody.append(row);
+            });
+          },
+          error: function (error) {
+            console.error("AJAX Error: ", error);
+          },
+        });
+      }
+    </script>
     <script>
       // සෙවුම් කාර්යය (Search Function)
       //   function searchCustomer() {
