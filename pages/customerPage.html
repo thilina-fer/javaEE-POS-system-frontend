@@ -273,6 +273,7 @@
     <script>
       window.onload(getAllCustomers());
 
+      //======================= Save Customers
       function saveCustomer() {
         const id = $("#cId").val();
         const name = $("#cName").val();
@@ -299,32 +300,7 @@
         });
       }
 
-      // function getAllCustomers() {
-      //   $.ajax({
-      //     url: "http://localhost:8080/javaEE_POS_system_Web_exploded/api/v1/customers",
-      //     method: "GET",
-      //     success: function (response) {
-      //       $("#customer-list").empty();
-      //       for (let customer of response) {
-      //         const row =
-      //           "<tr><td>" +
-      //           customer.id +
-      //           "</td><td>" +
-      //           customer.name +
-      //           "</td><td>" +
-      //           customer.address +
-      //           "</td><td>" +
-      //           customer.contact +
-      //           "</td></tr>";
-      //         $("#customer-list").append(row);
-      //       }
-      //     },
-      //     error: function (error) {
-      //       console.log(error);
-      //     },
-      //   });
-      // }
-
+      //======================= Get All Customers
       function getAllCustomers() {
         $.ajax({
           url: "http://localhost:8080/javaEE_POS_system_Web_exploded/api/v1/customers",
@@ -359,6 +335,25 @@
             console.error("AJAX Error: ", error);
           },
         });
+      }
+
+      //======================= Delete Customers
+      function deleteCustomer(id) {
+        if (confirm("Are You Sure Delete this Customer ? ")) {
+          $.ajax({
+            url:
+              "http://localhost:8080/javaEE_POS_system_Web_exploded/api/v1/customers?id=" +
+              id,
+            method: "DELETE",
+            success: function (response) {
+              alert("Customer Delete Successfully");
+              getAllCustomers();
+            },
+            error: function (error) {
+              alert("Do not delete this customer");
+            },
+          });
+        }
       }
     </script>
     <script>
